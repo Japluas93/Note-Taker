@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 // App registers the required api route
 app.use(apiRoutes);
-// App registers the requires html route
+// App registers the required html route
 app.use(htmlRoutes);
 // App listens on port 3000 for connections
 app.listen(3000, function () {
