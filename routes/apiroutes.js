@@ -1,10 +1,10 @@
-const apiRouter = require("express").Router();
+const Router = require("express").Router();
 
-apiRouter.get("*", function (req, res) {
+Router.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 // This route reads the db.json file and returns all saved notes as JSON.
-apiRouter.get("/api/notes", function (req, res) {
+Router.get("/api/notes", function (req, res) {
   res.readFile(path.join(__dirname, "../db/db.json"), "utf8", (err, data) => {
     if (err) {
       console.log("Error");
@@ -17,7 +17,7 @@ apiRouter.get("/api/notes", function (req, res) {
 // This route receives a new note to save on the request body
 // Adds it to the `db.json` file
 // Then returns the new note to the client.
-apiRouter.post("/api/notes", function (req, res) {
+Router.post("/api/notes", function (req, res) {
   let note = {
     title: req.body.title,
     text: req.body.text,
@@ -42,5 +42,5 @@ apiRouter.post("/api/notes", function (req, res) {
 // req.body
 // req.params
 
-// apiRouter is exported
-module.exports = apiRouter;
+// Router is exported
+module.exports = Router;
