@@ -42,4 +42,5 @@ apiRouter.post("/api/notes", function (req, res) {
 // req.body
 // req.params
 
+// apiRouter is exported
 module.exports = apiRouter;
