@@ -5,6 +5,16 @@ router.get("*", function (req, res) {
 });
 
 //fs.readfile
+router.get("/api/notes", function (req, res) {
+  res.readFile(path.join(__dirname, "../db/db.json"), "utf8", (err, data) => {
+    if (err) {
+      console.log("Error");
+      return;
+    }
+    notes = JSON.parse(data);
+  });
+  res.json(notes);
+});
 //fs.writefile for post and delete methods
 // json parse and stringify
 // req.body
