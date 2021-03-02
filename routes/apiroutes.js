@@ -1,18 +1,17 @@
 const Router = require("express").Router();
-
-Router.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
-});
+const path = require("path");
+const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 // This route reads the db.json file and returns all saved notes as JSON.
 Router.get("/api/notes", function (req, res) {
-  res.readFile(path.join(__dirname, "../db/db.json"), "utf8", (err, data) => {
+  fs.readFile(path.join(__dirname, "../db/db.json"), "utf8", (err, data) => {
     if (err) {
       console.log("Error");
       return;
     }
     notes = JSON.parse(data);
+    res.json(notes);
   });
-  res.json(notes);
 });
 // This route receives a new note to save on the request body
 // Adds it to the `db.json` file
@@ -21,9 +20,10 @@ Router.post("/api/notes", function (req, res) {
   let note = {
     title: req.body.title,
     text: req.body.text,
+    id: uuidv4(),
   };
   notes.push(note);
-  res.writeFile(
+  fs.writeFile(
     path.join(__dirname, "../db/db.json"),
     JSON.stringify(notes),
     (err) => {
@@ -32,7 +32,7 @@ Router.post("/api/notes", function (req, res) {
         return;
       }
       // notes.push({title:"my test", text:"my text"})
-      res.send(notes);
+      res.json(notes);
     }
   );
 });
