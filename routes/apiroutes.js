@@ -36,11 +36,30 @@ Router.post("/api/notes", function (req, res) {
     }
   );
 });
-// fs.readfile
-//fs.writefile for post adnd delete methods
-// json parse and stringify
-// req.body
-// req.params
+// This route receives a query parameter containing the id of a note to delete.
+// Then the splice method removes the note data from the array in the db.json file
+// The notes are then rewritten to the `db.json` file.
+Router.delete("/api/notes/:id", function (req, res) {
+  // note.id.length = 0;
+  const noteId = req.params.id;
+  const noteIndex = notes.findIndex(function (note) {
+    return note.id === noteId;
+  });
+  notes.splice(noteIndex, 1);
+
+  fs.writeFile(
+    path.join(__dirname, "../db/db.json"),
+    JSON.stringify(notes),
+    (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+
+      res.send(200);
+    }
+  );
+});
 
 // Router is exported
 module.exports = Router;
