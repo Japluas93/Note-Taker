@@ -16,6 +16,8 @@ app.use(express.static("public"));
 app.use(apiRoutes);
 // App registers the required html route
 app.use(htmlRoutes);
+// Variable that ensures that my web server is starting with a dynamic port.
+var PORT = process.env.PORT || 3000;
 // App listens on port 3000 for connections
 app.listen(3000, function () {
   console.log("Server is running");
