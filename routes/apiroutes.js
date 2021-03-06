@@ -10,6 +10,7 @@ Router.get("/api/notes", function (req, res) {
       return;
     }
     console.log(data);
+    var notes = [];
     notes = JSON.parse(data);
     res.json(notes);
   });
