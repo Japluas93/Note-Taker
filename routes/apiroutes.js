@@ -33,6 +33,7 @@ Router.post("/api/notes", function (req, res) {
       text: req.body.text,
       id: uuidv4(),
     };
+
     newNote.push(note);
     fs.writeFile(
       path.join(__dirname, "../db/db.json"),
@@ -53,24 +54,33 @@ Router.post("/api/notes", function (req, res) {
 // The notes are then rewritten to the `db.json` file.
 Router.delete("/api/notes/:id", function (req, res) {
   // note.id.length = 0;
-  const noteId = req.params.id;
-  const noteIndex = notes.findIndex(function (note) {
-    return note.id === noteId;
-  });
-  notes.splice(noteIndex, 1);
-
-  fs.writeFile(
-    path.join(__dirname, "../db/db.json"),
-    JSON.stringify(notes),
-    (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-
-      res.send(200);
+  fs.readFile(path.join(__dirname, "../db/db.json"), "utf8", (err, data) => {
+    if (err) {
+      console.log("Error");
+      return;
     }
-  );
+    console.log(data);
+    var deleteNote = [];
+    deleteNote = JSON.parse(data);
+
+    const noteId = req.params.id;
+    const noteIndex = deleteNote.findIndex(function (note) {
+      return note.id === noteId;
+    });
+    deleteNote.splice(noteIndex, 1);
+
+    fs.writeFile(
+      path.join(__dirname, "../db/db.json"),
+      JSON.stringify(deleteNote),
+      (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        return res.send(200);
+      }
+    );
+  });
 });
 
 // Router is exported
