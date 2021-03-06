@@ -19,24 +19,34 @@ Router.get("/api/notes", function (req, res) {
 // Adds it to the `db.json` file
 // Then returns the new note to the client.
 Router.post("/api/notes", function (req, res) {
-  let note = {
-    title: req.body.title,
-    text: req.body.text,
-    id: uuidv4(),
-  };
-  notes.push(note);
-  fs.writeFile(
-    path.join(__dirname, "../db/db.json"),
-    JSON.stringify(notes),
-    (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      // notes.push({title:"my test", text:"my text"})
-      res.json(notes);
+  fs.readFile(path.join(__dirname, "../db/db.json"), "utf8", (err, data) => {
+    if (err) {
+      console.log("Error");
+      return;
     }
-  );
+    console.log(data);
+    var newNote = [];
+    newNote = JSON.parse(data);
+
+    let note = {
+      title: req.body.title,
+      text: req.body.text,
+      id: uuidv4(),
+    };
+    newNote.push(note);
+    fs.writeFile(
+      path.join(__dirname, "../db/db.json"),
+      JSON.stringify(newNote),
+      (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        // notes.push({title:"my test", text:"my text"})
+        return res.json(newNote);
+      }
+    );
+  });
 });
 // This route receives a query parameter containing the id of a note to delete.
 // Then the splice method removes the note data from the array in the db.json file
