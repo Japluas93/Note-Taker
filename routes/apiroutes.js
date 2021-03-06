@@ -10,9 +10,9 @@ Router.get("/api/notes", function (req, res) {
       return;
     }
     console.log(data);
-    var notes = [];
-    notes = JSON.parse(data);
-    return res.json(notes);
+    var savedNotes = [];
+    savedNotes = JSON.parse(data);
+    return res.json(savedNotes);
   });
 });
 // This route receives a new note to save on the request body
