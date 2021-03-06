@@ -12,7 +12,7 @@ Router.get("/api/notes", function (req, res) {
     console.log(data);
     var notes = [];
     notes = JSON.parse(data);
-    res.json(notes);
+    return res.json(notes);
   });
 });
 // This route receives a new note to save on the request body
